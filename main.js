@@ -64,10 +64,39 @@ window.onload = function onLoad() {
 	camera.position.set(-15, 10, 10);
 	camera.lookAt(scene.position);
 	
-    var geometry = new THREE.BoxGeometry( 5, 5, 5 );
+    var geom = new THREE.BoxGeometry( 5, 5, 5 );
     var material = new THREE.MeshLambertMaterial( { color: 0xFF0000 } );
-    var mesh = new THREE.Mesh( geometry, material );
-    scene.add( mesh );
+    var box = new THREE.Mesh( geom, material );
+    scene.add( box );
+	
+	var loader = new THREE.STLLoader();
+	loader.load('pen.stl', function(geometry) {
+		// var material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
+		var mesh = new THREE.Mesh(geometry, material);
+		
+		geometry.computeFaceNormals();
+		geometry.computeVertexNormals();
+		
+		
+		mesh.position.set( 0, - 0.25, 0.6 );
+		mesh.rotation.set( 0, - Math.PI / 2, 0 );
+		mesh.scale.set( 0.5, 0.5, 0.5 );
+ 
+		mesh.castShadow = true;
+		mesh.receiveShadow = true;
+
+		scene.add( mesh );
+		
+// geometry.computeFaceNormals();
+// geometry.computeVertexNormals();
+// model.model = new THREE.Mesh(geometry, material);
+// model.model.rotation.x = -90 * (Math.PI / 180.0);
+// model.model.scale.set(0.15, 0.15, 0.15);
+// model.model.position.y = -4;
+
+// scene.add(model);
+		
+	});
 
     var light = new THREE.PointLight( 0xFFFF00 );
     light.position.set( 10, 0, 10 );
@@ -75,6 +104,17 @@ window.onload = function onLoad() {
 
     renderer.setClearColor( 0xdddddd, 1);
     renderer.render( scene, camera );
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
 	
 	
     var circle = new ProgressBar.Circle('#progress', {
